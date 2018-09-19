@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+	
+	<link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/css/animate.css">  
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/style.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/responsive.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/custom.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/introjs.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrap-responsive.min.css">
+	
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Home | iTribe</title>
+		    <!-- jQuery -->
+    <script type="text/javascript" src="%PUBLIC_URL%/js/jquery.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/bootstrap.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/intro.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDOF8si_QIR1tV14B2wlUYLxpLaPJrXH7M"></script>
+
+	
+	<script>
+		//alert(%PUBLIC_URL%);	
+		var base_s_url = ""+document.location.origin+"";
+		var base_url   = ""+document.location.origin+"";
+	
+	</script>
+
+<!-- Hotjar Tracking Code for https://www.itribe.us -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:306066,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+	
+	 <script crossorigin  src="https://www.webglearth.com/v2/api.js"></script>
+	 
+	 
+<script>
+    
+        var earth = undefined;
+    	var myReq;
+
+	function initialize(mapdataj) {
+		
+		//console.log(mapdataj);
+		
+	 if(mapdataj != 2)
+		{
+		
+	  //var markerdata =  mapdataj;
+	  
+		 var mapdataj1 = [
+  { lat: 20.5937, long: 78.9629, markermsg: '<b>Hello world!</b><br/>I am a popup.<br />' },
+  { lat: 37.0902, long: 95.7129, markermsg: '<b>Red</b><br>I am a popup.<br />' },
+  { lat: 35.7443087, long:  123.3792706, markermsg: '<b>South Korea</b><br> Community <br />' }, 
+  { lat: 40.2218619, long:  122.9430685, markermsg: '<b>North Korea</b><br> Community <br />' }, 
+  { lat: 34.4459277, long:  86.0146558, markermsg: '<b>China </b><br> Community <br />' }, 
+  { lat: 36.241384, long:  -113.7547193, markermsg: '<b>United States </b><br><b> The U.S. is a country of 50 states covering a vast swath of North America </b> <br />' }
+  ];
+	  
+        var options = {
+          sky: false,
+          atmosphere: true,
+          dragging: true,
+          tilting: true,
+          zooming: true,
+          center: [20.5937, 78.9629],
+          zoom: 2
+        };
+        earth = new WE.map('earth_div', options);
+		
+		
+		
+		//earth.setView([46.8011, 8.2266], 3);
+        var natural = WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          tms: true
+        });
+        natural.addTo(earth);
+		
+		/* var natural = WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          tms: true
+        });
+        natural.addTo(earth);*/
+
+        var toner = WE.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+          attribution: 'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.',
+          opacity: 0.6
+        });
+        toner.addTo(earth);
+		
+	
+		
+		
+		// Start a simple rotation animation
+        /*var before = null;
+        requestAnimationFrame(function animate(now) {
+            var c = earth.getPosition();
+            var elapsed = before? now - before: 0;
+            before = now;
+            earth.setCenter([c[0], c[1] + 0.1*(elapsed/30)]);
+            requestAnimationFrame(animate);
+        });*/
+		
+		
+		//console.log(mapdataj1);
+		
+		
+		
+		//console.log(mapdataj);
+		
+		var ijk = 1;
+		var indexArrLtLong = {};
+		
+		var refrencearr = "";
+		
+		mapdataj.forEach(function(element) {		
+		
+				var latlong 		= element.latlong;
+				
+				latlong = latlong.split('_');
+				
+		var readyMarkerTxt	= '<li><div class="memberinfo"> <span class="members-name"> <b> '+element.community_name+' </b> </span> <span class="members-name"> '+element.community_tagline+' </span> <br/>  <a href="/members-card/'+element.community_id+'" class="view-detail">View</a></div></li>';
+				
+				//var readyMarkerTxt = "<b>"+element.community_name+"</b>";
+				
+				var lat 		= latlong[0];
+				var longi 		= latlong[1];
+				var markermsg 	= readyMarkerTxt;
+				
+				var createIndex = lat+'_'+longi;
+				indexArrLtLong[createIndex] = ijk;
+				//alert(lat+'__'+longi);
+				
+			var markerobj   = '';				
+			var markerobj   = markerobj+ijk;
+			
+			markerobj = WE.marker([lat, longi],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);
+			markerobj.bindPopup(markermsg, {maxWidth: 180, closeButton: true});
+				
+			
+			var closeMarkPopup = function(e) {
+			
+				//alert(e.latitude + ', ' + e.longitude);				
+				
+				if(refrencearr != "")
+				{				
+					refrencearr.closePopup();	
+					refrencearr = "";
+				}			
+				
+				refrencearr =  markerobj;							
+			};
+			
+			markerobj.on('click', closeMarkPopup);
+			
+			ijk++;
+			
+		});
+		
+		
+		/*var ijk = 1;
+		mapdataj.forEach(function(element) {
+			console.log(element.lat);
+			
+			var lat 		= element.lat;
+			var longi 		= element.long;
+			var markermsg 	= element.markermsg;
+			
+			var markerobj   = '';				
+			var markerobj   = markerobj+ijk;
+			
+			markerobj = WE.marker([lat, longi],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);
+			markerobj.bindPopup(markermsg, {maxWidth: 120, closeButton: true});
+			
+			ijk++;
+		});*/
+		
+		
+		
+		var flyToJapan = function (e) {
+        
+		earth.fitBounds([[22, 122], [48, 154]]);
+        earth.panInsideBounds([[22, 122], [48, 154]],
+                {heading: 90, tilt: 25, duration: 1});
+		}
+		
+	var panTo = function(coords) {
+			earth.panTo(coords);		
+	}
+	
+	// initilize variable
+	
+	var AfterClickSetPointer,obj2,mark;
+		 
+	var showInfo = function(e) {
+		 
+			
+		   //alert(e.latitude + ', ' + e.longitude);
+		   var ltlong = $("#community_lat_long").val();
+			
+		   var lat_long = e.latitude+'_'+e.longitude;
+		   
+		//AfterClickSetPointer = WE.marker([e.latitude, e.longitude],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);		   
+		//var mark = earth.initMarker(e.latitude, e.longitude,'%PUBLIC_URL%/images/pointer.png',35, 35);
+		   
+		   $("#community_lat_long").val(lat_long); 
+		   
+		  
+		   
+			ltlong = ltlong.split('_');
+					
+			if(ltlong[0] != "")
+			{
+				obj2 = WE.marker([ltlong[0], ltlong[1]],'%PUBLIC_URL%/images/tranparentset.png').addTo(earth);
+				//obj2 = WE.marker([ltlong[0], ltlong[1]],'%PUBLIC_URL%/images/transparent.png',35, 35);
+				
+				// set old marker on new position
+				//AfterClickSetPointer = WE.marker([e.latitude, e.longitude],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);
+				AfterClickSetPointer.setLatLng([e.latitude, e.longitude]);
+			}
+			else
+			{
+			    AfterClickSetPointer = WE.marker([e.latitude, e.longitude],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);	
+				//mark = earth.initMarker(e.latitude, e.longitude,'%PUBLIC_URL%/images/pointer.png',35, 35);				
+			}
+			
+			
+			var geocodingAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latitude+", "+e.longitude+"&sensor=true";
+			
+			$.getJSON(geocodingAPI, function (json) {
+				 if (json.status == "OK") {
+					 //Check result 0
+					 var result = json.results[0];
+					 //look for locality tag and administrative_area_level_1
+					 var city = "";
+					 var state = "";
+					 for (var i = 0, len = result.address_components.length; i < len; i++) {
+						 var ac = result.address_components[i];
+						if (ac.types.indexOf("administrative_area_level_1") >= 0) state = ac.short_name;
+					 }
+					 if (state != '') {
+						 //console.log("Hello to you out there in " + city + ", " + state + "!");
+					 }
+				 }
+
+			 });
+ 
+		   //alert('at ' + e.screenX + ', ' + e.screenY);
+		   
+		   //flyToJapan();
+		   //panTo([20.5937, 78.9629]);
+		   
+		    //earth.initMarker(null);
+		 }
+		 		 
+		 
+		 if(document.location.pathname == '/addcommunity')
+		 {
+			earth.on('click', showInfo);
+		 }
+		
+		
+		
+			//var marker = WE.marker([20.5937, 78.9629], '%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);
+			//marker.bindPopup("<b>Hello world!</b><br>I am a popup.<br /><span style='font-size:10px;color:#999'>Tip: Another popup is hidden in Cairo..</span>", {maxWidth: 150, closeButton: true}).openPopup();
+
+			//var marker2 = WE.marker([37.0902, 95.7129],'%PUBLIC_URL%/images/pointer.png',35, 35).addTo(earth);
+			// marker2.bindPopup("<b>Cairo</b><br>Yay, you found me!", {maxWidth: 120, closeButton: false});
+			// var markerCustom = WE.marker([50, -9], './assets/images/pointer.png', 100, 24).addTo(earth);	
+
+	 } // end initialize==2 condition    
+  }
+	  
+	  function abc() {
+	  
+	    alert('%PUBLIC_URL%/images/pointer.png');
+		
+	  }
+	  
+	  function test(){
+		
+		abc();
+		//initialize();        
+    }
+
+     function rotate_play_pause() {
+        var before = null;
+        var status = document.getElementById("rotate_button");
+        if (status.value == String.fromCharCode(9654)) {
+           document.getElementById("rotate_button").value = String.fromCharCode(9646);
+            // Start a simple rotation animation        
+        requestAnimationFrame(function animate(now) {
+            var c = earth.getPosition();
+            var elapsed = before? now - before: 0;
+            before = now;
+            earth.setCenter([c[0], c[1] - 0.1*(elapsed/30)]);
+            myReq = requestAnimationFrame(animate);
+        });//requestAnimationFrame
+
+        } else {
+          cancelAnimationFrame(myReq);
+          document.getElementById("rotate_button").value = String.fromCharCode(9654);
+          }//if else
+         }//function rotate_play_pause()
+	
+    </script>
+   
+	
+  </head>
+  <body onload="initialize(2)" >  
+  
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>    
+	
+	
+	<div id="root"></div>
+    
+	
+	<!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+	
+
+	    <div class="footer" id="footerid" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                  <ul class="footer-links">
+                    <li><a href="/about">About us </a></li>
+                    <li><a href="/privacy-policy">Privacy Policy  </a></li>
+                    <li><a href="/terms-and-conditions"> Terms and Conditions</a></li>
+                  </ul>
+                  <div class="made">Powered by <a href="http://www.maxosys.com/" target="_blank"> Maxosys Ltd.</a> </div>
+
+                </div>
+                <div class="col-sm-6 copyright">
+                  <div class="footer__social-block">
+                    <span>Follow  Us :</span>
+                    <ul>
+                      <li><a class="link-facebook-footer" href="https://www.facebook.com/iTribeIsrael/" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                      <li><a class="link-twitter-footer" href="https://twitter.com/our_itribe" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                    </ul>
+                  </div>
+                  <p>© 2017 iTribe. All Rights Reserved.  </p>
+                </div>
+            </div>
+
+			<div id="loadingDiv" class="loadingDiv">
+				<div>
+				<span><img src="%PUBLIC_URL%/images/loading.gif"  ></span>
+				</div>
+			</div>
+        </div>
+       </div> 
+
+	
+    <script type="text/javascript" src="%PUBLIC_URL%/js/wow.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/custom.js"></script>	
+	
+	
+	
+  </body>
+</html>
